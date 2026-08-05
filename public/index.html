@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales CRM</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <div class="sidebar">
+    <div class="brand">Sales<span>CRM</span></div>
+    <div class="nav-item active" data-view="dashboard">Дашборд / ROAS</div>
+    <div class="nav-item" data-view="leads">Лиды</div>
+    <div class="nav-item" data-view="orders">Заказы</div>
+    <div class="nav-item" data-view="returns">Возвраты</div>
+    <div class="nav-item" data-view="finance">Финансы</div>
+  </div>
+
+  <div class="main">
+
+    <!-- ДАШБОРД -->
+    <div id="view-dashboard" class="view">
+      <div class="header-row">
+        <h1>Дашборд</h1>
+        <div class="filters">
+          <input type="date" id="dash-from">
+          <input type="date" id="dash-to">
+          <button onclick="loadDashboard()">Применить</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid" id="kpi-grid"></div>
+
+      <div class="panel">
+        <h3>ROAS по кампаниям</h3>
+        <table>
+          <thead><tr>
+            <th>Кампания</th><th>Лиды</th><th>Заказы</th><th>Расход</th><th>Доход</th><th>ROAS</th><th>Цена лида</th>
+          </tr></thead>
+          <tbody id="roas-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ЛИДЫ -->
+    <div id="view-leads" class="view" style="display:none">
+      <div class="header-row">
+        <h1>Лиды</h1>
+        <div class="filters">
+          <select id="lead-status-filter" onchange="loadLeads()">
+            <option value="">Все статусы</option>
+            <option value="new">Новый</option>
+            <option value="contacted">Связались</option>
+            <option value="qualified">Квалифицирован</option>
+            <option value="order_created">Заказ создан</option>
+            <option value="rejected">Отказ</option>
+            <option value="spam">Спам</option>
+          </select>
+          <button onclick="loadLeads()">Обновить</button>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>Дата</th><th>Имя</th><th>Телефон</th><th>Кампания</th><th>Источник</th><th>Менеджер</th><th>Статус</th></tr></thead>
+        <tbody id="leads-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- ЗАКАЗЫ -->
+    <div id="view-orders" class="view" style="display:none">
+      <div class="header-row">
+        <h1>Заказы</h1>
+        <div class="filters">
+          <select id="order-status-filter" onchange="loadOrders()">
+            <option value="">Все статусы</option>
+            <option value="new">Новый</option>
+            <option value="confirmed">Подтверждён</option>
+            <option value="shipped">Отправлен</option>
+            <option value="delivered">Доставлен</option>
+            <option value="paid">Оплачен</option>
+            <option value="returned">Возврат</option>
+            <option value="cancelled">Отменён</option>
+          </select>
+          <button onclick="loadOrders()">Обновить</button>
+        </div>
+      </div>
+      <table>
+        <thead><tr>
+          <th>Дата</th><th>№</th><th>Клиент</th><th>Телефон</th><th>Сумма</th><th>ТТН НП</th><th>Чек</th><th>Статус</th>
+        </tr></thead>
+        <tbody id="orders-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- ВОЗВРАТЫ -->
+    <div id="view-returns" class="view" style="display:none">
+      <div class="header-row"><h1>Возвраты</h1><button onclick="loadReturns()">Обновить</button></div>
+      <table>
+        <thead><tr><th>Дата</th><th>Заказ</th><th>Сумма</th><th>Причина</th><th>Статус</th></tr></thead>
+        <tbody id="returns-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- ФИНАНСЫ -->
+    <div id="view-finance" class="view" style="display:none">
+      <div class="header-row">
+        <h1>Финансы</h1>
+        <div class="filters">
+          <input type="date" id="fin-from">
+          <input type="date" id="fin-to">
+          <button onclick="loadFinance()">Применить</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid" id="fin-kpi-grid"></div>
+
+      <div class="panel">
+        <h3>Добавить операцию вручную</h3>
+        <div class="tag-form">
+          <select id="tx-type"><option value="income">Доход</option><option value="expense">Расход</option></select>
+          <input id="tx-category" placeholder="Категория (напр. ad_spend, rent)">
+          <input id="tx-amount" type="number" placeholder="Сумма">
+          <input id="tx-desc" placeholder="Описание">
+          <button onclick="addTransaction()">Добавить</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Операции</h3>
+        <table>
+          <thead><tr><th>Дата</th><th>Тип</th><th>Категория</th><th>Сумма</th><th>Описание</th></tr></thead>
+          <tbody id="fin-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
